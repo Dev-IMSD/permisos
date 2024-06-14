@@ -38,6 +38,9 @@ class LoginModel extends Model
         if (!$user) {
             return ['status' => 'error', 'message' => 'Usuario no existe'];
         }
+        
+
+
          if($user['pass'] == null){
              return ['status' => 'info', 'message' => 'Debe cambiar la clave '];
         }else{
