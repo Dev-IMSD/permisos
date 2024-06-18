@@ -1,8 +1,23 @@
+<?php 
+
+$session = session();
+    if ($session){
+        echo $session->username;
+        echo $session->nivel;
+        //echo $session->direccion;
+    }else{
+            echo "no hay abierta ninguna sesion buuuu ";
+    }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to CodeIgniter 4!</title>
+    <title>Bienvenido a la session</title>
+    
     <meta name="description" content="The small framework with powerful features">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -202,6 +217,9 @@
 
 <!-- HEADER: MENU + HEROE SECTION -->
 <header>
+<a href="<?= base_url('/logout'); ?>" target="_blank">
+                  Salir
+                </a>
 
     <div class="menu">
         <ul>
@@ -226,7 +244,9 @@
     <div class="heroe">
 
         <h1>Welcome to CodeIgniter <?= CodeIgniter\CodeIgniter::CI_VERSION ?></h1>
-
+        <hr>
+        <h1><?= $session->getFlashdata('msg'); ?> </h1>
+        <hr>
         <h2>The small framework with powerful features</h2>
 
     </div>

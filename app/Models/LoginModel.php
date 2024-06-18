@@ -33,36 +33,63 @@ class LoginModel extends Model
     ];
     protected $DBGroup = 'users';
 
-    public function verificarUsuario($username, $password){ 
+    public function verificarUsuario($username, $password)
+    {
         $user = $this->where('username', $username)->first();
         if (!$user) {
             return ['status' => 'error', 'message' => 'Usuario no existe'];
         }
-         if($user['pass'] == null){
-             return ['status' => 'info', 'message' => 'Debe cambiar la clave '];
-        }else{
+        if ($user['pass'] == null) {
+            return ['status' => 'info', 'message' => 'Debe cambiar la clave '];
+        } else {
             if (!password_verify($password, $user['pass'])) {
                 return ['status' => 'error', 'message' => 'Datos incorrectos '];
-             }
-    
-             return ['status' => 'success', 'user' => $user];
-         }        
-    }
-    
-    public function cambioClaveBd($username, $password){
-        $user=$this->where('username', $username)->first();
-        if($user){
-            $password = password_hash($password,PASSWORD_DEFAULT);
-            $this->where('username', $username)->set('pass',$password)->update();
-        return ['status' => 'success', 'message'=> 'Clave modificada con exito'];
-        }else{
-        return ['status' => 'error', 'message' => 'Usuario no encontrado por lo que no se cambio la contraseña'];
+            }
+            return ['status' => 'success', 'user' => $user]; //'usuarioId'=> $usuarioId
         }
-              
     }
 
-    public function getIdByRut($rut) {
+    private function validarClave($password) {
+        if (strlen($password) < 8) {
+            return ['status' => 'error', 'message' => 'La contraseña debe tener al menos 8 caracteres'];
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return ['status' => 'error', 'message' => 'La contraseña debe contener al menos una letra mayúscula'];
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return ['status' => 'error', 'message' => 'La contraseña debe contener al menos una letra minúscula'];
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return ['status' => 'error', 'message' => 'La contraseña debe contener al menos un número'];
+        }
+        if (!preg_match('/[\W_]/', $password)) {
+            return ['status' => 'error', 'message' => 'La contraseña debe contener al menos un carácter especial'];
+        }
+        return ['status' => 'success'];
+    }
+
+
+    public function cambioClaveBd($username, $password)
+    {
+        $user = $this->where('username', $username)->first();
+        if ($user) {
+            $validation = $this->validarClave($password);
+            if ($validation['status'] !== 'success') {
+                return $validation;
+            }
+            
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $this->where('username', $username)->set('pass', $password)->update();
+            return ['status' => 'success', 'message' => 'Clave modificada con exito'];
+        } else {
+            return ['status' => 'error', 'message' => 'Usuario no encontrado por lo que no se cambio la contraseña'];
+        }
+    }
+
+    public function getIdByRut($rut)
+    {
         $user = $this->where('rut', $rut)->first();
         return $user ? $user['id'] : null;
+            
     }
 }
