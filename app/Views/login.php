@@ -13,7 +13,7 @@
     <div class="container">
         <div class="d-flex flex-md-row justify-content-center">
             <div class="form-group">
-                <img src="/Logoo.png" height="100" width="100" class="d-flex"> 
+                <img src="/Logoo.png" height="100" width="100" class="d-flex">
                 <h2 class="d-flex">Sistema de Solicitud de Bienes y Servicios</h2>
                 <h4 class="d-flex">Ingrese Sesión para entrar al sitio</h4>
             </div>
@@ -44,8 +44,8 @@
                             </label>
                         </div>
 
-                        <div class="d-flex mb-3 justify-content-center" >
-                            <button type="submit" class="btn position-fixed " style="background-color: #63d245; color:#ecf0f1;" >
+                        <div class="d-flex mb-3 justify-content-center">
+                            <button type="submit" class="btn position-fixed " style="background-color: #63d245; color:#ecf0f1;">
                                 Iniciar sesion
                             </button>
                         </div>
@@ -54,20 +54,19 @@
 
             </div>
             <script>
-                
-                document.addEventListener('DOMContentLoaded',(event)=>{
+                document.addEventListener('DOMContentLoaded', (event) => {
                     sessionStorage.clear()
                 })
-                document.getElementById('loginForm').addEventListener('submit', function(e) {
+                document.getElementById('loginForm').addEventListener('submit', async function(e) {
                     e.preventDefault();
 
+                    // Capturar el evento de envío del formulario de inicio de sesión
                     let username = document.getElementById('username').value;
                     let password = document.getElementById('password').value;
                     let cambioClave = document.getElementById('cambioClave').checked;
                     sessionStorage.setItem('username', username)
-
-                    
-                    fetch('<?= base_url('/autentificar') ?>', {
+                    try {
+                        const response = await fetch('<?= base_url('/autentificar') ?>', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -76,55 +75,61 @@
                                 username: username,
                                 password: password
                             })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                Swal.fire({
+                        });
+                        const data = await response.json(); //.then(response => response.json())
+                        if (data.status === 'success') {
+                            Swal.fire({
                                     icon: 'success',
                                     title: 'Bienvenido',
                                     text: data.message
-                                }).then(() => { 
-                                    if (cambioClave) {      
+                                })
+                                .then(() => {
+                                    // 
+                                    if (cambioClave) {
                                         window.location.href = '<?= base_url('/cambioClave') ?> ';
-                                        
-
                                     } else {
-                                        window.location.href = '<?= base_url('/') ?>';
-
+                                        if (data.nivel == 4) {
+                                            window.location.href = '<?= base_url('/') ?>'; // Admin
+                                        } else if (data.nivel == 3) {
+                                            window.location.href = '<?= base_url('/') ?>'; // Feriado Legal
+                                        } else {
+                                            window.location.href = '<?= base_url('/login') ?>';
+                                        }
                                     }
+
+
                                 })
 
+                        } else {
+                            if (data.status === 'info') {
+                                Swal.fire({
+
+                                        icon: 'info',
+                                        title: 'info',
+                                        text: data.message,
+                                        showConfirmButton: true
+                                    })
+                                    .then(() => {
+                                        window.location.href = '<?= base_url('/cambioClave') ?> ';
+
+
+                                    })
                             } else {
-                                if (data.status === 'info') {
-                                    Swal.fire({
+                                Swal.fire({
 
-                                            icon: 'info',
-                                            title: 'info',
-                                            text: data.message,
-                                            showConfirmButton: true
-                                        })
-                                        .then(() => {
-                                            window.location.href = '<?= base_url('/cambioClave') ?> ';
-                                           
-
-                                        })
-                                } else {
-                                    Swal.fire({
-
-                                        icon: data.status,
-                                        title: 'Ups Algo salio mal',
-                                        text: data.message
-                                    });
-                                }
-
-
+                                    icon: data.status,
+                                    title: 'Ups Algo salio mal',
+                                    text: data.message
+                                });
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
 
+
+                        }
+
+                    } catch (error) {
+                        console.error('Error:', error)
+
+                    };
                 });
             </script>
         </div>

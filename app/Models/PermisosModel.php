@@ -31,5 +31,18 @@ class PermisosModel extends Model
             return json_encode(['error' => $e->getMessage()]);
         }
     }
- 
+    
+
+    public function obtenerNivelAcceso($usuarioId){
+        $user = $this->where('id_usuario',$usuarioId)->first();
+        return $user ? $user['nivel_acceso'] : null;
+    }
+
+    // public function obtenerId($usuarioId){
+    //     $user = $this->where('id_usuario', $usuarioId)->first();
+    //     if ($user)
+    //         $usuarioId= $user['id_usuario'];
+    //         return ['id_usuario'=> $usuarioId]; // return $user ? $user[id_usuario] : null 
+    // }
+
 }

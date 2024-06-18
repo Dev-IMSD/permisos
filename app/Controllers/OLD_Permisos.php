@@ -385,8 +385,6 @@ class Permisos extends CI_Controller{
 			$this->session->set_flashdata('error_msg', $result);		
 			redirect(base_url('index.php/permisos/user/'.$rut_persona) );
 		}	
-
-			
 	}
 
 	public function actualizar_permisos(){
