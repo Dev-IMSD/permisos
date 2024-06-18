@@ -30,6 +30,19 @@
                 <h1 class="fs-4 card-title fw-bold mb-4 text-center" id="titulo">Cambio de Contraseña</h1>
                 <form id="cambioClaveForm" autocomplete="off">
                     <div>
+                        <div>
+                            <label for="texto">
+                            <b>
+                                Requisitos:<br>
+                                La contraseña debe tener al menos 8 caracteres<br>
+                                La contraseña debe contener al menos una letra mayúscula<br>
+                                La contraseña debe contener al menos una letra minúscula<br>
+                                La contraseña debe contener al menos un número<br>
+                                La contraseña debe contener al menos un carácter especial<br><br>
+
+                            </b>
+                            </label>
+                        </div>
                         <div class="mb-2">
                             <label class="mb-2" for="password1">Nueva Contraseña</label>
                             <input type="password" class="form-control" name="password1" id="password1" required>
