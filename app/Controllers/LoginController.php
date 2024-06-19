@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\view;
 use App\Models\LoginModel;
 use App\Models\PermisosModel;
+use App\Models\SolicitudModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use Permisos;
 use ResponseTrait;
@@ -48,7 +49,7 @@ class LoginController extends BaseController
 
                 // Obtiene el nivel de acceso del usuario por su ID
                 $nivelById = $modelo2->obtenerNivelAcceso($usuarioId);
-                
+
                 // Verifica el nivel de acceso
                 if ($nivelById == 4) {
 
@@ -93,7 +94,7 @@ class LoginController extends BaseController
     }
 
     public function cambioClave()
-    {   
+    {
         return view('cambioClave');
     }
 
@@ -103,7 +104,7 @@ class LoginController extends BaseController
             // Obtiene el username y password del formulario
             $username = $this->request->getVar('username');
             $password = $this->request->getVar('password');
-            
+
             $modelo = new LoginModel();
             // Se cambia la contraseña con el método cambioClaveBd
             $user = $modelo->cambioClaveBd($username, $password);
@@ -126,6 +127,25 @@ class LoginController extends BaseController
             $userId = $userModel->getIdByRut($rut);
             $userJson = $permisos->getPermisosById($userId, $sistema);
             return $this->response->setContentType('application/json')->setBody($userJson);
+        }
+    }
+
+    public function verDocumento()
+    {
+        return view('doc');
+    }
+
+    public function showSolicitud()
+    {
+        log_message('info', 'showSolicitud llamado');
+
+        try {
+            $solicitudModel = new SolicitudModel();
+            $solicitudJson = $solicitudModel->getSolictudesJson();
+            return $this->response->setContentType('application/json')->setBody($solicitudJson);
+        } catch (\Exception $e) {
+            log_message('error', 'Error en showSolicitud: ' . $e->getMessage());
+            return $this->response->setContentType('application/json')->setBody(json_encode(['error' => $e->getMessage()]));
         }
     }
 }

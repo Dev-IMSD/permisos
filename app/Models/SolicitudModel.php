@@ -37,6 +37,44 @@ class SolicitudModel extends Model
         'firma_rrhh',
         'nombre_rrhh'
     ];
+    protected $DBGroup = 'users';
 
+    public function getSolictudesJson(){
+        try {
+            $solicitudes = $this->findAll();
+            return json_encode($solicitudes);
+        } catch (\Exception $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        }
+    }
 
+    public function getSolicitudById($id)
+    {
+        try {
+            $solicitud = $this->find($id);
+            return json_encode($solicitud);
+        } catch (\Exception $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        }
+      
+    
+    }
+        // try {
+        //     // Log para verificar conexión a la base de datos
+        //     log_message('info', 'Intentando obtener todas las solicitudes');
+
+        //     // Obtener todas las solicitudes
+        //     $solicitudes = $this->findAll();
+
+        //     // Log para verificar resultados
+        //     log_message('info', 'Solicitudes obtenidas: ' . json_encode($solicitudes));
+
+        //     return json_encode($solicitudes);
+        // } catch (\Exception $e) {
+        //     // Manejo de errores
+        //     log_message('error', 'Error al obtener solicitudes: ' . $e->getMessage());
+        //     return json_encode(['error' => $e->getMessage()]);
+        // }
 }
+
+
