@@ -51,15 +51,6 @@ class SolicitudModel extends Model
         }
     }
 
-    public function getSolicitudByRut($rut)
-    {
-        // se reliza la consulta con Join 
-        return $this->select('sfl_solicitud.id as id_solicitud,sfl_solicitud.*,sistemas_users.*')
-            ->join('sistemas_users', 'sistemas_users.rut = sfl_solicitud.rut_solicitante')
-            ->where('sfl_solicitud.rut_solicitante', $rut)
-            ->find();
-            //->firts();
-    }
     
     public function getSolicitudById($id_solicitud)
     {
@@ -71,3 +62,5 @@ class SolicitudModel extends Model
 
     }
 }
+
+

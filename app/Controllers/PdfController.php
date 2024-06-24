@@ -12,6 +12,7 @@ class PdfController extends BaseController
 
     public function generatePdf($id_solicitud)
     {
+
         if (!$this->accesoPdf($id_solicitud)) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'No tienes Permisos para ver esta solicitud']);
         }
@@ -28,6 +29,7 @@ class PdfController extends BaseController
 
         $dompdf = new \Dompdf\Dompdf($options);
         $html = view('pdf', $data);
+
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -62,5 +64,7 @@ class PdfController extends BaseController
         }
         //en caso de no cumplir con ninguna de las dos condiciones se devuelve falso a generatepdf()
         return false;
+
     }
+
 }
