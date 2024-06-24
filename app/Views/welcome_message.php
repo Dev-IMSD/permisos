@@ -2,13 +2,8 @@
 
 $session = session();
     if ($session){
-        echo $session->username;
-        echo $session->nivel;
-        //echo $session->direccion;
-    }else{
-            echo "no hay abierta ninguna sesion buuuu ";
+        
     }
-
 
 ?>
 
@@ -217,7 +212,7 @@ $session = session();
 
 <!-- HEADER: MENU + HEROE SECTION -->
 <header>
-<a href="<?= base_url('/logout'); ?>" target="_blank">
+<a href="<?= base_url('/logout'); ?>" target="_self">
                   Salir
                 </a>
 

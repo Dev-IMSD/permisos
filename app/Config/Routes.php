@@ -2,6 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\LoginController;
+use App\Controllers\PdfController;
 use App\Controllers\UserController;
 /**
  * @var RouteCollection $routes
@@ -12,6 +13,7 @@ $routes->get('/logout', 'LoginController::logout');
 $routes->post('/autentificar', 'LoginController::autentificar');
 
 
+
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/', 'Home::index');
     $routes->get('users', 'UserController::showUsers');
@@ -19,7 +21,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('permisos/(:segment)', 'LoginController::permisos/$1');
     $routes->get('/cambioClave', 'LoginController::cambioClave');
     $routes->post('/actualizacionClave', 'LoginController::actualizacionClave');
+    $routes->get('/pdf/(:num)', 'PdfController::generatePdf/$1');
+    $routes->get('/doc', 'LoginController::verDocumento');
+    $routes->get('solicitudes', 'LoginController::showSolicitud'); 
 });
 
-// PDF
-$routes->get('/pdf/(:num)', 'PdfController::generatePdf/$1'); 
+
+
