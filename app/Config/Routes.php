@@ -11,8 +11,7 @@ use App\Controllers\UserController;
 $routes->get('/login', 'LoginController::index');
 $routes->get('/logout', 'LoginController::logout');
 $routes->post('/autentificar', 'LoginController::autentificar');
-$routes->get('/doc', 'LoginController::verDocumento');
-$routes->get('solicitudes', 'LoginController::showSolicitud');
+
 
 
 
@@ -24,6 +23,5 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/cambioClave', 'LoginController::cambioClave');
     $routes->post('/actualizacionClave', 'LoginController::actualizacionClave');
     $routes->get('/pdf/(:num)', 'PdfController::generatePdf/$1');
-    $routes->get('/doc', 'LoginController::verDocumento');
     $routes->get('solicitudes', 'LoginController::showSolicitud'); 
 });
