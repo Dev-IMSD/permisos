@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\view;
+use App\Models\DiasFuncionarioModel;
 use App\Models\LoginModel;
 use App\Models\PermisosModel;
 use App\Models\SolicitudModel;
@@ -50,24 +51,36 @@ class LoginController extends BaseController
                 // Obtiene el nivel de acceso del usuario por su ID
                 $nivelById = $modelo2->obtenerNivelAcceso($usuarioId);
 
+                
+
                 // Verifica el nivel de acceso
                 if ($nivelById == 4) {
 
                     $this->session;
                     $dataSession = [
-                        'userId'    => $user['user']['id'],
-                        'username'  => $user['user']['username'],
-                        'isLoggedIn' => true,
-                        'nivel'     => $nivelById,
-                        'nombre'    => $user['user']['nombre'] . " " . $user['user']['apellido'],
-                        'direccion' => $user['user']['direccion'],
-                        'depto'     => $user['user']['departamento'],
-                        'rut'       => $user['user']['rut'],
-                        
+                        'userId'            => $user['user']['id'],
+                        'username'          => $user['user']['username'],
+                        'isLoggedIn'        => true,
+                        'nivel'             => $nivelById,
+                        'nombre'            => $user['user']['nombre'] . " " . $user['user']['apellido'],
+                        'direccion'         => $user['user']['direccion'],
+                        'depto'             => $user['user']['departamento'],
+                        'rut'               => $user['user']['rut'],
+                        'dv'                => $user['user']['dv'],
+                        'fecha_contrato'    => $user['user']['fecha_contrato'],
+                        'habilitado'        => $user['user']['habilitado'],
+                        'cargo'             => $user['user']['cargo'],
+                        'telefono'          => $user['user']['telefono'],
+                        'mail'              => $user['user']['mail'],
+                        'calidad_juridica'  =>  $user['user']['calidad_juridica'],
+                        'grado'             =>  $user['user']['grado'],
+                        'escalafon'         =>  $user['user']['escalafon'],
+                        'jefe'              =>  $user['user']['jefe'],
+
                     ];
 
                     $this->session->set($dataSession);
-                    $this->session->setFlashdata('msg', 'Bienvenido al sistema ' . $dataSession['nombre']);
+                    $this->session->setFlashdata('msg', 'Bienvenido al sistema ' .$dataSession['nombre']);
                     return $this->response->setJSON(['status' => 'success', 'message' => 'Entrando, espere unos segundos', 'nivel' => $nivelById]);
 
                     //     
@@ -75,15 +88,24 @@ class LoginController extends BaseController
 
                     $this->session;
                     $dataSession = [
-                        'userId' => $user['user']['id'],
-                        'username' => $user['user']['username'],
-                        'isLoggedIn' => true,
-                        'nivel' => $nivelById,
-                        'nombre' => $user['user']['nombre'] . " " . $user['user']['apellido'],
-                        'direccion' => $user['user']['direccion'],
-                        'depto' => $user['user']['departamento'],
-                        'rut'       => $user['user']['rut'],
-                        
+                        'userId'            => $user['user']['id'],
+                        'username'          => $user['user']['username'],
+                        'isLoggedIn'        => true,
+                        'nivel'             => $nivelById,
+                        'nombre'            => $user['user']['nombre'] . " " . $user['user']['apellido'],
+                        'direccion'         => $user['user']['direccion'],
+                        'depto'             => $user['user']['departamento'],
+                        'rut'               => $user['user']['rut'],
+                        'dv'               => $user['user']['dv'],
+                        'fecha_contrato'    => $user['user']['fecha_contrato'],
+                        'habilitado'        => $user['user']['habilitado'],
+                        'cargo'             => $user['user']['cargo'],
+                        'telefono'          => $user['user']['telefono'],
+                        'mail'              => $user['user']['mail'],
+                        'calidad_juridica'  =>  $user['user']['calidad_juridica'],
+                        'grado'             =>  $user['user']['grado'],
+                        'escalafon'         =>  $user['user']['escalafon'],
+                        'jefe'              =>  $user['user']['jefe'],
                     ];
 
                     $this->session->set($dataSession);
@@ -134,16 +156,4 @@ class LoginController extends BaseController
         }
     }
 
-    
-    public function showSolicitud()
-    {
-
-        try {
-            $solicitudModel = new SolicitudModel();
-            $solicitudJson = $solicitudModel->getSolictudesJson();
-            return $this->response->setContentType('application/json')->setBody($solicitudJson);
-        } catch (\Exception $e) {
-            return $this->response->setContentType('application/json')->setBody(json_encode(['error' => $e->getMessage()]));
-        }
-    }
 }

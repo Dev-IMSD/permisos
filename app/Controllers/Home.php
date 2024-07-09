@@ -2,10 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Models\SolicitudModel;
+
 class Home extends BaseController
 {
     public function index(): string
-    {
-        return view('welcome_message');
+    {   // Obtiene la informacion que consulta en la bbdd 
+        $solicitudModel = new SolicitudModel();
+        $solicitudes = $solicitudModel->solicitudes();
+        //Se envia la informacion a home
+        return view('home',['solicitudes' => $solicitudes]);
     }
 }

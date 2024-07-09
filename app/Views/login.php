@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/Logoo.png" rel="shortcut icon" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="public/css/styles.css">
     <title>Inicio de Sesion</title>
@@ -53,88 +55,10 @@
                 </form>
 
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', (event) => {
-                    sessionStorage.clear()
-                })
-                document.getElementById('loginForm').addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    // Capturar el evento de envío del formulario de inicio de sesión
-                    let username = document.getElementById('username').value;
-                    let password = document.getElementById('password').value;
-                    let cambioClave = document.getElementById('cambioClave').checked;
-                    sessionStorage.setItem('username', username)
-                    try {
-                        const response = await fetch('<?= base_url('/autentificar') ?>', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                username: username,
-                                password: password
-                            })
-                        });
-                        const data = await response.json(); //.then(response => response.json())
-                        if (data.status === 'success') {
-                            Swal.fire({
-                                    icon: 'success',
-                                    title: 'Bienvenido',
-                                    text: data.message
-                                })
-                                .then(() => {
-                                    // 
-                                    if (cambioClave) {
-                                        window.location.href = '<?= base_url('/cambioClave') ?> ';
-                                    } else {
-                                        if (data.nivel == 4) {
-                                            window.location.href = '<?= base_url('/') ?>'; // Admin
-                                        } else if (data.nivel == 3) {
-                                            window.location.href = '<?= base_url('/') ?>'; // Feriado Legal
-                                        } else {
-                                            window.location.href = '<?= base_url('/login') ?>';
-                                        }
-                                    }
-
-
-                                })
-
-                        } else {
-                            if (data.status === 'info') {
-                                Swal.fire({
-
-                                        icon: 'info',
-                                        title: 'info',
-                                        text: data.message,
-                                        showConfirmButton: true
-                                    })
-                                    .then(() => {
-                                        window.location.href = '<?= base_url('/cambioClave') ?> ';
-
-
-                                    })
-                            } else {
-                                Swal.fire({
-
-                                    icon: data.status,
-                                    title: 'Ups Algo salio mal',
-                                    text: data.message
-                                });
-                            }
-
-
-                        }
-
-                    } catch (error) {
-                        console.error('Error:', error)
-
-                    };
-                });
-            </script>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="public/javaScript/login.js"></script>    
+</body>
 </html>

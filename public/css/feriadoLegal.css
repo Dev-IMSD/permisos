@@ -1,0 +1,113 @@
+body {
+    background-color: #2bbea1;
+    /* font-family: Arial; */
+}
+
+
+
+h2 {
+    color: #ecf0f1;
+    font-size: 38px;
+    margin-top: 10px;
+}
+
+#tutilo {
+    color: #ecf0f1;
+    margin-top: 5px;
+    margin-left: 20px;
+
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 70px;
+    margin-left: 70px;
+    border: 0;
+    border-top-color: currentcolor;
+    border-top-style: none;
+    border-top-width: 0px;
+    border-top: 1px solid #eee;
+}
+
+@media only screen and (min-width: 1578px) {
+
+    #divpagina {
+        width: 100%;
+
+        max-width: 1260px;
+    }
+}
+
+@media only screen and (min-width: 400px) {
+    #cerrarsesion {
+        margin-right: 13px;
+
+    }
+
+    #agregarfuncionario {
+        margin-right: 13px;
+
+    }
+
+    #enviar {
+        text-align: inherit;
+        text-align: center;
+    }
+}
+.mi-boton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    align-content: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mi-boton:hover {
+    background-color: #45a049;
+}
+
+.mi-boton:active {
+    background-color: #3e8e41;
+}
+
+.pulse-effect {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #007bff;
+    /* Color base del botón */
+    transition: transform 0.3s ease-in-out;
+    /* Transición suave del efecto de pulsación */
+}
+
+.pulse-effect:hover {
+    background-color: #0056b3;
+    /* Cambia el color al pasar el cursor sobre el botón */
+}
+
+.pulse-effect:active {
+    transform: scale(0.9);
+    /* Reduce ligeramente el tamaño del botón cuando se hace clic */
+}
+
+.shadow-effect {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #4CAF51;
+    /* Color base del botón */
+    transition: box-shadow 0.3s ease-in-out;
+    /* Transición suave del efecto de sombra */
+}
+
+.shadow-effect:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    /* Aumenta el desplazamiento y la opacidad de la sombra */
+}

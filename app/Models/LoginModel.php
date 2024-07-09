@@ -49,7 +49,8 @@ class LoginModel extends Model
         }
     }
 
-    private function validarClave($password) {
+    private function validarClave($password)
+    {
         if (strlen($password) < 8) {
             return ['status' => 'error', 'message' => 'La contraseña debe tener al menos 8 caracteres'];
         }
@@ -77,7 +78,7 @@ class LoginModel extends Model
             if ($validation['status'] !== 'success') {
                 return $validation;
             }
-            
+
             $password = password_hash($password, PASSWORD_DEFAULT);
             $this->where('username', $username)->set('pass', $password)->update();
             return ['status' => 'success', 'message' => 'Clave modificada con exito'];
@@ -90,9 +91,34 @@ class LoginModel extends Model
     {
         $user = $this->where('rut', $rut)->first();
         return $user ? $user['id'] : null;
-            
     }
 
-    
-   
+    public function getUserData($rut)
+    {
+        $userModel = new UserModel();
+        $userData = $userModel->datos_user($rut);
+
+        if ($userData) {
+            // Usuario encontrado, hacer algo con los datos...
+            print_r($userData);
+        } else {
+            // Usuario no encontrado, manejar el caso...
+            echo "Usuario no encontrado";
+        }
+    }
+
+
+    // Envia los funcionarios de la direccion 
+    public function getFuncionariosDireccion($direccion, $rutSolicitante)
+    {
+        $encrypter= service('encrypter');
+
+        $user = $this->where('direccion',$encrypter->decrypt($direccion))
+        //busca todos menos el rut que se entrega
+        ->where('rut !=', $encrypter->decrypt($rutSolicitante))
+        ->orderby('nombre','asc')
+        ->get()
+        ->getResultArray();
+        return $user ?? 'no hay subrogantes';
+    }
 }
